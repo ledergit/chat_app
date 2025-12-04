@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:chat_app/app_routes.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -7,6 +6,9 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Chat screen'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

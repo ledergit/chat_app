@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
             Text('Login screen'),
             TextButton(
               onPressed: () =>
-                  Navigator.pushNamed(context, AppRoutes.chatsList),
+                  Navigator.pushReplacementNamed(context, AppRoutes.chatsList),
               child: Text('Go to chats list'),
             ),
           ],
