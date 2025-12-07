@@ -1,15 +1,21 @@
+import 'package:chat_app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:chat_app/app_routes.dart';
 import 'package:chat_app/screens/chats_list_screen.dart';
 import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/screens/login_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  print('firebase allegedly initialized');
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthController authController = AuthController();
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -18,8 +24,17 @@ class MyApp extends StatelessWidget {
       title: 'Chat App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
       ),
-      initialRoute: AppRoutes.login,
+
+      initialRoute: authController.getInitialRoute(),
+      // initialRoute: AppRoutes.login,
       // initialRoute: AppRoutes.chat,
       // initialRoute: AppRoutes.chatsList,
       routes: {
@@ -27,6 +42,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.chat: (context) => ChatScreen(),
         AppRoutes.login: (context) => LoginScreen(),
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }

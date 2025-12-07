@@ -1,10 +1,15 @@
+import 'package:chat_app/controllers/chat_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/models/chat.dart';
+import 'package:chat_app/navigation.dart' as navigation;
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+  final ChatController chatController = ChatController();
+  ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final chat = ModalRoute.of(context)!.settings.arguments as Chat;
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat screen'),
@@ -13,10 +18,15 @@ class ChatScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Chat screen'),
-            IconButton(
-              onPressed: () => Navigator.pop(context),
-              icon: Icon(Icons.arrow_back),
+            Text('Chat screen for id ${chat.chatId}'),
+            Text('Chat participants:'),
+            ...chat.participants.map(
+              (e) => Text(e),
+            ),
+            TextButton(
+              onPressed: () => chatController.closeChat(context),
+              // onPressed: () => navigation.goBack(context),
+              child: Text('Go back'),
             ),
           ],
         ),
