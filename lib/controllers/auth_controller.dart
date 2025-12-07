@@ -27,6 +27,7 @@ class AuthController {
     String email,
     String password,
   ) async {
+    await Future.delayed(Duration(seconds: 3));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,

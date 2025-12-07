@@ -1,7 +1,6 @@
 import 'package:chat_app/controllers/chat_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/models/chat.dart';
-import 'package:chat_app/navigation.dart' as navigation;
 
 class ChatScreen extends StatelessWidget {
   final ChatController chatController = ChatController();
@@ -25,7 +24,6 @@ class ChatScreen extends StatelessWidget {
             ),
             TextButton(
               onPressed: () => chatController.closeChat(context),
-              // onPressed: () => navigation.goBack(context),
               child: Text('Go back'),
             ),
           ],

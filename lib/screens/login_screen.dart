@@ -9,6 +9,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isLoading = false;
   final AuthController authController = AuthController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -72,24 +73,48 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () => authController.registerUser(
-                      context,
-                      emailController.text,
-                      passController.text,
-                    ),
+                    onPressed: _isLoading
+                        ? null
+                        : () => authController.registerUser(
+                            context,
+                            emailController.text,
+                            passController.text,
+                          ),
                     child: Text('Register'),
                   ),
                   SizedBox(
                     width: 8,
                   ),
                   ElevatedButton(
-                    onPressed: () => authController.authenticateUser(
-                      context,
-                      emailController.text,
-                      passController.text,
-                    ),
-                    child: Text('Login'),
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            try {
+                              await authController.authenticateUser(
+                                context,
+                                emailController.text,
+                                passController.text,
+                              );
+                            } finally {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
+                          },
+
+                    child: _isLoading ? Text('Logging in..') : Text('Login'),
                   ),
+                  // ElevatedButton(
+                  //   onPressed: () => authController.authenticateUser(
+                  //     context,
+                  //     emailController.text,
+                  //     passController.text,
+                  //   ),
+                  //   child: Text('Login'),
+                  // ),
                 ],
               ),
             ],
