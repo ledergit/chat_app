@@ -1,5 +1,6 @@
-import 'package:chat_app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/controllers/auth_controller.dart';
+import 'package:chat_app/dev/secrets.dart' as test;
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
@@ -16,7 +17,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    emailController.text = 'matthew.leder@gmail.com';
+    emailController.text = test.email;
+    passController.text = test.pw;
     super.initState();
   }
 
@@ -72,18 +74,35 @@ class _LoginScreenState extends State<LoginScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  _isLoading
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: CircularProgressIndicator(),
+                        )
+                      : SizedBox.shrink(),
                   ElevatedButton(
                     onPressed: _isLoading
                         ? null
-                        : () => authController.registerUser(
-                            context,
-                            emailController.text,
-                            passController.text,
-                          ),
+                        : () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            try {
+                              await authController.registerUser(
+                                context,
+                                emailController.text,
+                                passController.text,
+                              );
+                            } finally {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
+                          },
                     child: Text('Register'),
                   ),
                   SizedBox(
-                    width: 8,
+                    width: 12,
                   ),
                   ElevatedButton(
                     onPressed: _isLoading
@@ -105,16 +124,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
 
-                    child: _isLoading ? Text('Logging in..') : Text('Login'),
+                    child: Text('Login'),
                   ),
-                  // ElevatedButton(
-                  //   onPressed: () => authController.authenticateUser(
-                  //     context,
-                  //     emailController.text,
-                  //     passController.text,
-                  //   ),
-                  //   child: Text('Login'),
-                  // ),
                 ],
               ),
             ],

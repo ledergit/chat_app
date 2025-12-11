@@ -2,6 +2,7 @@ import 'package:chat_app/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/navigation.dart' as navigation;
+import 'package:chat_app/constants.dart';
 
 class AuthController {
   String getInitialRoute() {
@@ -27,7 +28,7 @@ class AuthController {
     String email,
     String password,
   ) async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(Duration(seconds: 2));
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
@@ -35,6 +36,16 @@ class AuthController {
       );
       if (context.mounted) {
         openChatsList(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              authErrorMessages[e.code] ?? 'Unable to authenticate',
+            ),
+          ),
+        );
       }
     } catch (e) {
       if (context.mounted) {
@@ -53,12 +64,21 @@ class AuthController {
     String password,
   ) async {
     try {
+      await Future.delayed(Duration(seconds: 2));
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       if (context.mounted) {
         openChatsList(context);
+      }
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(authErrorMessages[e.code] ?? 'Unable to register'),
+          ),
+        );
       }
     } catch (e) {
       if (context.mounted) {

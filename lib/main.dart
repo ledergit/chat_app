@@ -1,4 +1,5 @@
 import 'package:chat_app/controllers/auth_controller.dart';
+import 'package:chat_app/screens/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:chat_app/app_routes.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         AppRoutes.chatsList: (context) => ChatsListScreen(),
         AppRoutes.chat: (context) => ChatScreen(),
         AppRoutes.login: (context) => LoginScreen(),
+        AppRoutes.test: (context) => TestScreen(),
       },
       debugShowCheckedModeBanner: false,
     );

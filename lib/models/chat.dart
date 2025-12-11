@@ -1,6 +1,8 @@
+import 'package:chat_app/models/member.dart';
+
 class Chat {
   final String chatId;
-  final List<String> participants;
+  final List<Member> participants;
 
   Chat({
     required this.chatId,

@@ -16,3 +16,7 @@ void goBack(BuildContext context) {
 void goToLogin(BuildContext context) {
   Navigator.pushReplacementNamed(context, AppRoutes.login);
 }
+
+void goToTestScreen(BuildContext context) {
+  Navigator.pushNamed(context, AppRoutes.test);
+}

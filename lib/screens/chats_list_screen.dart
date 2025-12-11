@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:chat_app/controllers/auth_controller.dart';
 import 'package:chat_app/controllers/chat_controller.dart';
 import 'package:chat_app/models/chat.dart';
+import 'package:chat_app/models/member.dart';
 import 'package:flutter/material.dart';
 // import 'package:chat_app/app_routes.dart';
 // import 'package:chat_app/navigation.dart' as navigation;
@@ -32,15 +33,34 @@ class ChatsListScreen extends StatelessWidget {
           children: [
             Text('Chats List'),
             Text('User: ${FirebaseAuth.instance.currentUser?.uid}'),
-            TextButton(
-              onPressed: () => chatController.openChat(
-                context,
-                Chat(
-                  chatId: 'abc123',
-                  participants: ['matt', 'eva'],
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () => chatController.openTest(context),
+                  child: Text('Go to test page'),
                 ),
-              ),
-              child: Text('Open chat'),
+                TextButton(
+                  onPressed: () => chatController.openChat(
+                    context,
+                    Chat(
+                      chatId: 'abc123',
+                      participants: [
+                        Member(
+                          uid: FirebaseAuth.instance.currentUser!.uid,
+                          displayName: 'matt',
+                        ),
+                        Member(
+                          uid: '222222',
+                          displayName: 'Eva Leder',
+                        ),
+                      ],
+                    ),
+                  ),
+                  child: Text('Open chat'),
+                ),
+              ],
             ),
           ],
         ),
